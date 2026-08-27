@@ -35,6 +35,7 @@
           },
           "configurations": {
             "production": {
+              "baseHref": "/term-suggestion/",
               "budgets": [
                 {
                   "type": "initial",
