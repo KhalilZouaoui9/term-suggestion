@@ -1,0 +1,91 @@
+<main class="shell">
+  <header>
+    <div><h1>Term Suggestions</h1></div>
+  </header>
+  <section class="workspace" aria-label="Suggestion search">
+    <mat-card class="search-card">
+      <mat-card-header
+        ><mat-card-title>Which term are you looking for?</mat-card-title></mat-card-header
+      >
+      <mat-card-content>
+        <form class="search-form" (submit)="onSubmit($event)" aria-label="Search form">
+          <mat-form-field appearance="outline" class="term-field"
+            ><mat-label>Term to search</mat-label><mat-icon matPrefix aria-hidden="true">search</mat-icon
+            ><input
+              matInput
+              [formField]="searchForm.query"
+              placeholder="E.g. gros"
+              autocomplete="off"
+            /><mat-hint>Case and whitespace are ignored</mat-hint></mat-form-field
+          >
+          <mat-form-field appearance="outline" class="choices-field"
+            ><mat-label>List of terms (choices)</mat-label
+            ><textarea
+              matInput
+              [formField]="searchForm.choices"
+              rows="3"
+              placeholder="gros, gras, graisse, ..."
+            ></textarea
+            ><mat-hint
+              >Separate terms with a comma or a line break</mat-hint
+            ></mat-form-field
+          >
+          <mat-form-field appearance="outline" class="limit-field"
+            ><mat-label>Number of results</mat-label
+            ><input matInput type="number" [formField]="searchForm.limit"
+          /></mat-form-field>
+          <div class="actions">
+            <button mat-flat-button type="submit" color="primary">
+              <mat-icon aria-hidden="true">search</mat-icon>Search</button
+            ><button mat-button type="button" (click)="reset()">Reset</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="results-card">
+      <mat-card-header
+        ><mat-card-title>Results</mat-card-title>
+        @if (hasSearched()) {
+          <mat-card-subtitle
+            >{{ resultLabel() }} for "{{ formModel().query.trim() }}"</mat-card-subtitle
+          >
+        } @else {
+          <mat-card-subtitle>Suggestions will appear here</mat-card-subtitle>
+        }
+      </mat-card-header>
+      <mat-card-content>
+        @if (!hasSearched()) {
+          <div class="empty-state">
+            <h2>Start a search</h2>
+            <p>Enter a term to discover the most relevant matches.</p>
+          </div>
+        } @else if (suggestions().length === 0) {
+          <div class="empty-state">
+            <h2>No results</h2>
+            <p>Try another term or expand your dictionary.</p>
+          </div>
+        } @else {
+          <ul class="suggestion-list" aria-label="Matching suggestions">
+            @for (suggestion of suggestions(); track suggestion.term) {
+              <li class="suggestion-row">
+                <div class="term-info">
+                  <span class="term">{{ suggestion.term }}</span>
+                  @if (suggestion.reason === 'contains') {
+                    <span class="supporting-text">contains the searched term</span>
+                  }
+                </div>
+                <mat-chip-set aria-label="Similarity score"
+                  ><mat-chip highlighted
+                    >{{ suggestion.differences }} difference{{
+                      suggestion.differences > 1 ? 's' : ''
+                    }}</mat-chip
+                  ></mat-chip-set
+                >
+              </li>
+            }
+          </ul>
+        }
+      </mat-card-content>
+    </mat-card>
+  </section>
+</main>
