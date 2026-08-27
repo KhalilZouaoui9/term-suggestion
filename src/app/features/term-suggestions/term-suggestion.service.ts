@@ -57,6 +57,6 @@ export class TermSuggestionService {
   }
 
   private normalize(value: string): string {
-    return value.trim().toLocaleLowerCase('fr-FR');
+    return value.trim().toLowerCase();
   }
 }

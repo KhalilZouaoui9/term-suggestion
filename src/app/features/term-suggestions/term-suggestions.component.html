@@ -19,7 +19,7 @@
             /><mat-hint>Case and whitespace are ignored</mat-hint></mat-form-field
           >
           <mat-form-field appearance="outline" class="choices-field"
-            ><mat-label>List of terms (choices)</mat-label
+            ><mat-label>Choices</mat-label
             ><textarea
               matInput
               [formField]="searchForm.choices"
@@ -47,7 +47,7 @@
         ><mat-card-title>Results</mat-card-title>
         @if (hasSearched()) {
           <mat-card-subtitle
-            >{{ resultLabel() }} for "{{ formModel().term.trim() }}"</mat-card-subtitle
+            >{{ resultLabel() }}</mat-card-subtitle
           >
         } @else {
           <mat-card-subtitle>Suggestions will appear here</mat-card-subtitle>
@@ -57,12 +57,10 @@
         @if (!hasSearched()) {
           <div class="empty-state">
             <h2>Start a search</h2>
-            <p>Enter a term to discover the most relevant matches.</p>
           </div>
         } @else if (suggestions().length === 0) {
           <div class="empty-state">
             <h2>No results</h2>
-            <p>Try another term or expand your dictionary.</p>
           </div>
         } @else {
           <ul class="suggestion-list" aria-label="Matching suggestions">
